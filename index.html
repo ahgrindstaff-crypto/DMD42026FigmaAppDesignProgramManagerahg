@@ -3,106 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UX ARCHITECT: Figma Project Lead</title>
+    <title>UX ARCHITECT: Beginner Figma Guide</title>
     <style>
         :root { --primary: #0ACF83; --figma-blue: #1ABCFE; --figma-purple: #A259FF; --bg: #1E1E1E; --card: #2C2C2C; --text: #FFFFFF; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         #app-shell { width: 100%; max-width: 420px; height: 92vh; max-height: 800px; background: #000; border: 4px solid #444; border-radius: 40px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.5); overflow: hidden; }
-        #header { padding: 40px 20px 20px; background: #111; text-align: center; border-bottom: 2px solid var(--figma-purple); }
-        .header-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--figma-purple); font-weight: 900; }
+        
+        #header { padding: 40px 20px 20px; background: #111; text-align: center; border-bottom: 2px solid var(--figma-blue); }
+        .header-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--figma-blue); font-weight: 900; }
+        
         #main-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; }
-        .phase-badge { display: inline-block; padding: 4px 12px; background: rgba(162, 89, 255, 0.1); border: 1px solid var(--figma-purple); color: var(--figma-purple); border-radius: 6px; font-size: 0.65rem; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
-        h2 { font-size: 1.4rem; margin: 0 0 10px; color: #fff; }
-        p { font-size: 0.95rem; line-height: 1.6; color: #B3B3B3; margin-bottom: 25px; }
-        .instruction-box { background: rgba(255,255,255,0.05); border-left: 4px solid var(--figma-blue); padding: 15px; margin-bottom: 20px; font-size: 0.9rem; }
-        .btn-list { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
-        .nav-btn { background: var(--figma-purple); color: #fff; padding: 18px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-        .nav-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        #vitals { padding: 12px; text-align: center; font-size: 0.65rem; color: #666; background: #111; font-family: monospace; }
+        .phase-badge { display: inline-block; padding: 4px 12px; background: rgba(26, 188, 254, 0.1); border: 1px solid var(--figma-blue); color: var(--figma-blue); border-radius: 6px; font-size: 0.65rem; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
+        
+        h2 { font-size: 1.3rem; margin: 0 0 10px; color: #fff; line-height: 1.2; }
+        p { font-size: 0.9rem; line-height: 1.5; color: #B3B3B3; margin-bottom: 20px; }
+        
+        .instruction-box { background: rgba(255,255,255,0.05); border-left: 4px solid var(--primary); padding: 15px; margin-bottom: 20px; font-size: 0.85rem; border-radius: 0 8px 8px 0; }
+        .instruction-box strong { color: var(--primary); display: block; margin-bottom: 5px; }
+
+        .nav-controls { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; padding: 20px; background: #111; border-top: 1px solid #333; }
+        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .btn-back { background: #333; color: #ccc; }
+        .btn-next { background: var(--figma-blue); color: #fff; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
+
+        #vitals { padding: 10px; text-align: center; font-size: 0.6rem; color: #555; background: #000; font-family: monospace; }
     </style>
 </head>
 <body>
 
 <div id="app-shell">
     <div id="header">
-        <div class="header-title">Figma Plugin & Logic Lab</div>
+        <div class="header-title">Figma Interactive Navigator</div>
     </div>
-    <div id="main-content">
+    <div id="main-content" id="content-area">
         </div>
-    <div id="vitals">BV-229 // GRINDSTAFF_PLUGIN_V5</div>
+    <div class="nav-controls">
+        <button class="btn btn-back" id="back-btn" onclick="changeStep(-1)">BACK</button>
+        <button class="btn btn-next" id="next-btn" onclick="changeStep(1)">NEXT STEP</button>
+    </div>
+    <div id="vitals">BV-229 // GRINDSTAFF_NAV_V6</div>
 </div>
 
 <script>
-    let currentPhase = 0;
+    let currentStep = 0;
 
-    const projectSteps = [
+    const steps = [
         {
-            phase: "Phase 1: Logic",
-            title: "The Problem Statement",
-            desc: "Every great app starts with a problem. What hallway friction are you solving today?",
-            task: "In Figma, create a Frame (F) labeled 'RESOURCES'. Use the Text tool (T) to write your 2-sentence Problem Statement.",
-            btn: "Logic Defined"
+            phase: "Step 1: Setup",
+            title: "Create Your Canvas",
+            desc: "Every app needs a 'Frame' to live in. Think of this as the screen of your phone.",
+            task: "Press the 'F' key. Look at the right panel and click 'iPhone 14'. You should see a white rectangle appear."
         },
         {
-            phase: "Phase 2: Personas",
-            title: "User Architecture",
-            desc: "Humanistic AI requires a human target. Who are we helping?",
-            task: "Create 3 user circles (O). Label them with a specific user type (e.g., 'Lost 6th Grader').",
-            btn: "Users Mapped"
+            phase: "Step 2: Logic",
+            title: "The Problem Space",
+            desc: "Before we design, we need to know what we are solving. Don't worry about graphics yet.",
+            task: "Press 'T' for the Text Tool. Click near your frame and write: 'This app helps students [Problem] in the hallway.'"
         },
         {
-            phase: "Phase 3: Skeleton",
-            title: "Low-Fi Wireframes",
-            desc: "Structure over style. Use rectangles to build the bones of 5 screens.",
-            task: "Build 5 connected screen layouts using only Rectangles (R) and Placeholders.",
-            btn: "Bones Built"
+            phase: "Step 3: Skeleton",
+            title: "Wireframe Level 1",
+            desc: "Let's build the top part of your app (The Header). Professional apps use simple shapes first.",
+            task: "Press 'R'. Draw a rectangle at the top of your iPhone frame for your title bar."
         },
         {
-            phase: "Phase 4: Power Up",
-            title: "Plugin Integration",
-            desc: "Don't draw icons by hand. Professional designers use plugins to work faster.",
-            task: "Click the 'Resources' icon (four squares) or press Shift+I. Search for 'Iconify' or 'Unsplash'. Drag 5 professional assets into your file.",
-            btn: "Plugins Activated"
+            phase: "Step 4: Resources",
+            title: "Plugin Power-Up",
+            desc: "Let's get professional icons. We use plugins to find high-quality graphics fast.",
+            task: "Press 'Shift + I'. Click 'Plugins' and search for 'Iconify'. Search for a 'Home' icon and drag it into your header."
         },
         {
-            phase: "Phase 5: Scalability",
-            title: "Components & Variants",
-            desc: "Turn your best button into a 'Master Component' so you can change the color of every screen at once.",
-            task: "Select a button. Press Cmd+Option+K. In the right panel, add a 'Variant' for the Hover State.",
-            btn: "Master Components Ready"
+            phase: "Step 5: Expansion",
+            title: "5-Level Layout",
+            desc: "Your app needs 5 screens to show a full user journey. Let's multiply!",
+            task: "Select your iPhone frame. Press 'Cmd + D' (Duplicate) 4 times until you have 5 screens in a row."
         },
         {
-            phase: "Phase 6: The Noodles",
-            title: "Prototyping Level 5",
-            desc: "Connect your screens. Your 'Noodles' must create a complete 5-level journey.",
-            task: "Switch to 'Prototype' mode. Connect all 5 screens. Set your transition to 'Smart Animate' for professional motion.",
-            btn: "Interaction Live"
+            phase: "Step 6: Components",
+            title: "The Master Button",
+            desc: "A Component is a 'parent' shape. If you change the parent, all the 'children' change automatically.",
+            task: "Draw a button. Select it and press 'Cmd + Option + K'. It should turn purple. This is now a Master Component!"
         },
         {
-            phase: "Phase 7: Final Push",
-            title: "The High-Fi Finish",
-            desc: "Finalize your visual identity and apply the Automation Ladder logic.",
-            task: "Apply Final Colors. Ensure the AI feature is clearly labeled. Test the 'Play' button to confirm the 5-level flow.",
-            btn: "Project Certified"
+            phase: "Step 7: The Noodle",
+            title: "Interactive Prototyping",
+            desc: "Time to connect the screens. We call these 'noodles' because they look like spaghetti!",
+            task: "Click 'Prototype' in the top-right menu. Click your button on Screen 1 and drag the blue arrow to Screen 2."
+        },
+        {
+            phase: "Step 8: Smart Motion",
+            title: "Smooth Transitions",
+            desc: "Let's make it look high-end. We don't want it to just 'blink' to the next screen.",
+            task: "In the Prototype settings that popped up, change 'Instant' to 'Smart Animate'. This makes it slide smoothly."
+        },
+        {
+            phase: "Step 9: Review",
+            title: "The Play Button",
+            desc: "Let's see your design in action. This is the best part of being a UX Architect.",
+            task: "Click the 'Play' triangle icon in the top right. Click through your 5-level prototype to test your work!"
         }
     ];
 
     function render() {
         const area = document.getElementById('main-content');
-        if (currentPhase >= projectSteps.length) {
-            area.innerHTML = `
-                <div class="phase-badge">Final Check</div>
-                <h2>Architect Certified</h2>
-                <p>You have mastered Logic, Plugins, and 5-Level Interactions. Your Figma project is ready for the real world.</p>
-                <div class="btn-list">
-                    <button class="nav-btn" onclick="currentPhase=0; render()">Start New Build</button>
-                </div>
-            `;
-            return;
-        }
-
-        const step = projectSteps[currentPhase];
+        const step = steps[currentStep];
+        
         area.innerHTML = `
             <div class="phase-badge">${step.phase}</div>
             <h2>${step.title}</h2>
@@ -110,12 +118,42 @@
             <div class="instruction-box">
                 <strong>LAB TASK:</strong><br>${step.task}
             </div>
-            <div class="btn-list">
-                <button class="nav-btn" onclick="currentPhase++; render()">${step.btn}</button>
-            </div>
         `;
+
+        // Update Button States
+        document.getElementById('back-btn').disabled = (currentStep === 0);
+        document.getElementById('next-btn').innerText = (currentStep === steps.length - 1) ? "FINISH" : "NEXT STEP";
     }
 
+    function changeStep(dir) {
+        if (dir === 1 && currentStep < steps.length - 1) {
+            currentStep++;
+        } else if (dir === -1 && currentStep > 0) {
+            currentStep--;
+        } else if (dir === 1 && currentStep === steps.length - 1) {
+            showEnd();
+            return;
+        }
+        render();
+    }
+
+    function showEnd() {
+        const area = document.getElementById('main-content');
+        area.innerHTML = `
+            <div class="phase-badge">Certified Architect</div>
+            <h2>Mission Complete</h2>
+            <p>You have successfully navigated the Figma interface, used Plugins, and connected a 5-level interaction noodle.</p>
+            <div class="instruction-box">
+                <strong>FINAL STEP:</strong><br>Ask Mr. G to review your Prototype or turn in your 'Share' link!
+            </div>
+        `;
+        document.getElementById('next-btn').style.display = 'none';
+        document.getElementById('back-btn').innerText = "RE-READ STEPS";
+        document.getElementById('back-btn').style.width = "100%";
+        document.querySelector('.nav-controls').style.gridTemplateColumns = "1fr";
+    }
+
+    // Initial render
     render();
 </script>
 </body>
