@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UX ARCHITECT: Figma Project Lead</title>
+    <style>
+        :root { --primary: #0ACF83; --figma-blue: #1ABCFE; --figma-purple: #A259FF; --bg: #1E1E1E; --card: #2C2C2C; --text: #FFFFFF; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        #app-shell { width: 100%; max-width: 420px; height: 92vh; max-height: 800px; background: #000; border: 4px solid #444; border-radius: 40px; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.5); overflow: hidden; }
+        #header { padding: 40px 20px 20px; background: #111; text-align: center; border-bottom: 2px solid var(--figma-purple); }
+        .header-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--figma-purple); font-weight: 900; }
+        #main-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; }
+        .phase-badge { display: inline-block; padding: 4px 12px; background: rgba(162, 89, 255, 0.1); border: 1px solid var(--figma-purple); color: var(--figma-purple); border-radius: 6px; font-size: 0.65rem; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
+        h2 { font-size: 1.4rem; margin: 0 0 10px; color: #fff; }
+        p { font-size: 0.95rem; line-height: 1.6; color: #B3B3B3; margin-bottom: 25px; }
+        .instruction-box { background: rgba(255,255,255,0.05); border-left: 4px solid var(--figma-blue); padding: 15px; margin-bottom: 20px; font-size: 0.9rem; }
+        .btn-list { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
+        .nav-btn { background: var(--figma-purple); color: #fff; padding: 18px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .nav-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        #vitals { padding: 12px; text-align: center; font-size: 0.65rem; color: #666; background: #111; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+<div id="app-shell">
+    <div id="header">
+        <div class="header-title">Figma Plugin & Logic Lab</div>
+    </div>
+    <div id="main-content">
+        </div>
+    <div id="vitals">BV-229 // GRINDSTAFF_PLUGIN_V5</div>
+</div>
+
+<script>
+    let currentPhase = 0;
+
+    const projectSteps = [
+        {
+            phase: "Phase 1: Logic",
+            title: "The Problem Statement",
+            desc: "Every great app starts with a problem. What hallway friction are you solving today?",
+            task: "In Figma, create a Frame (F) labeled 'RESOURCES'. Use the Text tool (T) to write your 2-sentence Problem Statement.",
+            btn: "Logic Defined"
+        },
+        {
+            phase: "Phase 2: Personas",
+            title: "User Architecture",
+            desc: "Humanistic AI requires a human target. Who are we helping?",
+            task: "Create 3 user circles (O). Label them with a specific user type (e.g., 'Lost 6th Grader').",
+            btn: "Users Mapped"
+        },
+        {
+            phase: "Phase 3: Skeleton",
+            title: "Low-Fi Wireframes",
+            desc: "Structure over style. Use rectangles to build the bones of 5 screens.",
+            task: "Build 5 connected screen layouts using only Rectangles (R) and Placeholders.",
+            btn: "Bones Built"
+        },
+        {
+            phase: "Phase 4: Power Up",
+            title: "Plugin Integration",
+            desc: "Don't draw icons by hand. Professional designers use plugins to work faster.",
+            task: "Click the 'Resources' icon (four squares) or press Shift+I. Search for 'Iconify' or 'Unsplash'. Drag 5 professional assets into your file.",
+            btn: "Plugins Activated"
+        },
+        {
+            phase: "Phase 5: Scalability",
+            title: "Components & Variants",
+            desc: "Turn your best button into a 'Master Component' so you can change the color of every screen at once.",
+            task: "Select a button. Press Cmd+Option+K. In the right panel, add a 'Variant' for the Hover State.",
+            btn: "Master Components Ready"
+        },
+        {
+            phase: "Phase 6: The Noodles",
+            title: "Prototyping Level 5",
+            desc: "Connect your screens. Your 'Noodles' must create a complete 5-level journey.",
+            task: "Switch to 'Prototype' mode. Connect all 5 screens. Set your transition to 'Smart Animate' for professional motion.",
+            btn: "Interaction Live"
+        },
+        {
+            phase: "Phase 7: Final Push",
+            title: "The High-Fi Finish",
+            desc: "Finalize your visual identity and apply the Automation Ladder logic.",
+            task: "Apply Final Colors. Ensure the AI feature is clearly labeled. Test the 'Play' button to confirm the 5-level flow.",
+            btn: "Project Certified"
+        }
+    ];
+
+    function render() {
+        const area = document.getElementById('main-content');
+        if (currentPhase >= projectSteps.length) {
+            area.innerHTML = `
+                <div class="phase-badge">Final Check</div>
+                <h2>Architect Certified</h2>
+                <p>You have mastered Logic, Plugins, and 5-Level Interactions. Your Figma project is ready for the real world.</p>
+                <div class="btn-list">
+                    <button class="nav-btn" onclick="currentPhase=0; render()">Start New Build</button>
+                </div>
+            `;
+            return;
+        }
+
+        const step = projectSteps[currentPhase];
+        area.innerHTML = `
+            <div class="phase-badge">${step.phase}</div>
+            <h2>${step.title}</h2>
+            <p>${step.desc}</p>
+            <div class="instruction-box">
+                <strong>LAB TASK:</strong><br>${step.task}
+            </div>
+            <div class="btn-list">
+                <button class="nav-btn" onclick="currentPhase++; render()">${step.btn}</button>
+            </div>
+        `;
+    }
+
+    render();
+</script>
+</body>
+</html>
